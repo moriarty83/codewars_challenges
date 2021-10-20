@@ -1,18 +1,57 @@
 function getPINs(observed) {
-    options = (observed.split('')).map(x => getDigits(+x));
-    console.log("options: ", options)
+    return pinRecursion(observed, getDigits(observed[0]), 1)
+}
+
+
+function pinRecursion(observed, currentArr=[], counter=1){
+
+    let string = observed;
+
+    // Base Case
+    if(counter === string.length){
+        output = currentArr.map(String)
+
+        return output;
+    }
+
+    // Work
+    possibleDigits = getDigits(string[counter]);
+    newCombos = [];
+    for(digit of possibleDigits){
+        if (currentArr.length > 0){
+            for (current of currentArr){
+                newCombos.push(current.toString()+digit.toString());
+            }
+        }
+    }
+
+    counter = counter + 1;
+
+    // Recursion
+    return pinRecursion(string, newCombos, counter)
 }
 
 const getDigits = (num) => {
-    return [rightButton(num), leftButton(num), topButton(num), buttomButton(num), selfButton(num)]
+    let digits = []
+    if(+num === 0){
+        digits = [8, 0];
+    }
+    else{
+    digits = [rightButton(num), leftButton(num), topButton(num), buttomButton(num), selfButton(num)];
+    }
+    for(let i = digits.length - 1; i >= 0; i --){
+        if(digits[i] === undefined || digits[i] === NaN){
+            digits.splice(i, 1)
+        }
+    }
+    return digits
 }
 
 const rightButton = (num)=>{
     return +num % 3 === 0 ? undefined : +num + 1
-
 }
 const leftButton = (num)=>{
-    return +num % 4 === 0 ? undefined : +num === 1 ? undefined : +num-1;
+    return (+num-1) % 3 === 0 ? undefined : +num === 1 ? undefined : +num-1;
 } 
 
 const topButton = (num)=>{
@@ -24,7 +63,10 @@ const buttomButton = (num)=>{
 }
 
 const selfButton = (num) =>{ return +num}
-console.log(getPINs("51"))
+
+item = "80"
+
+console.log("output: " + getPINs(item));
 
 
 
