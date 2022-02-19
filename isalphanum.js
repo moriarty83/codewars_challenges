@@ -1,10 +1,12 @@
 
 
 function alphanumeric(string){
+    const regEx = /^[0-9a-zA-Z]+$/;
+    return string.match(/^[0-9a-zA-Z]+$/) !== null ? true : false;
 
-<Routrson.namege 
   }
 
+console.log(alphanumeric("PassW#0rd"))
 
 //   In this example you have to validate if a user input 
 //   string is alphanumeric. The given string is not 
